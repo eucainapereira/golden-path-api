@@ -1,6 +1,6 @@
 # 🏆 Golden Path API: The Enterprise Reference Architecture
 
-[![CI/CD Golden Path](https://github.com/your-username/golden-path-api/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/your-username/golden-path-api/actions/workflows/ci-cd.yml)
+[![CI/CD Golden Path](https://github.com/eucainapereira/golden-path-api/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/your-username/golden-path-api/actions/workflows/ci-cd.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 This repository represents the **Golden Path** for deploying scalable, secure, and production-ready APIs on AWS EKS. It implements a Python FastAPI backend orchestrated by Terraform and automated via GitHub Actions.
