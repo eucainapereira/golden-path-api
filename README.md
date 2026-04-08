@@ -135,5 +135,3 @@ Error: kubernetes_service.api_svc: status.0.load_balancer.0.ingress is empty
 3. **GitHub Container Registry (GHCR)**: Chosen over DockerHub for better integration with GitHub Actions native permissions and cost efficiency within the enterprise ecosystem.
 
 ---
-
-*Generated with ❤️ by Antigravity - Senior DevOps Engineer Agent*
