@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevOps Control Center - Golden Path</title>
+    <style>
+        :root {
+            --bg: #0f172a;
+            --card: #1e293b;
+            --accent: #38bdf8;
+            --text: #f1f5f9;
+            --success: #22c55e;
+            --warning: #f59e0b;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Sidebar Settings */
+        .sidebar {
+            width: 320px;
+            background-color: var(--card);
+            padding: 2rem;
+            border-right: 1px solid #334155;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .sidebar h1 { font-size: 1.25rem; margin: 0; display: flex; align-items: center; gap: 10px; }
+        .sidebar h1 span { color: var(--accent); }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        label { font-size: 0.8rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; }
+        input, select {
+            background: #0f172a;
+            border: 1px solid #475569;
+            color: white;
+            padding: 0.75rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+
+        /* Main Canvas */
+        .main-canvas {
+            flex: 1;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            overflow-y: auto;
+        }
+
+        .visualizer {
+            background: #00000044;
+            border-radius: 12px;
+            height: 400px;
+            position: relative;
+            border: 1px dashed #475569;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .node {
+            background: var(--card);
+            border: 2px solid var(--accent);
+            padding: 1rem;
+            border-radius: 8px;
+            position: absolute;
+            font-size: 0.8rem;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            transition: all 0.3s ease;
+        }
+
+        .node span { display: block; font-weight: bold; margin-top: 4px; color: var(--accent); }
+
+        .line {
+            position: absolute;
+            height: 2px;
+            background: #475569;
+            z-index: -1;
+        }
+
+        /* Code Preview */
+        .code-preview {
+            background: #000;
+            padding: 1.5rem;
+            border-radius: 8px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            position: relative;
+        }
+
+        .code-preview::before {
+            content: 'TERRAFORM GENERATED';
+            position: absolute;
+            top: 0; right: 2rem;
+            font-size: 0.7rem;
+            color: #475569;
+            background: #000;
+            padding: 4px 12px;
+            transform: translateY(-50%);
+        }
+
+        .keyword { color: #f472b6; }
+        .string { color: #4ade80; }
+
+        .status-badge {
+            background: var(--success);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <h1><span>🏆</span> Golden Path</h1>
+        <h2>Infrastructure Settings</h2>
+        
+        <div class="input-group">
+            <label>Cluster Name</label>
+            <input type="text" id="clusterName" value="golden-path-cluster" oninput="updateUI()">
+        </div>
+
+        <div class="input-group">
+            <label>Bucket Name (S3)</label>
+            <input type="text" id="bucketName" value="golden-path-website-2026" oninput="updateUI()">
+        </div>
+
+        <div class="input-group">
+            <label>AWS Region</label>
+            <select id="region" onchange="updateUI()">
+                <option value="us-east-1">us-east-1 (N. Virginia)</option>
+                <option value="sa-east-1">sa-east-1 (São Paulo)</option>
+                <option value="eu-west-1">eu-west-1 (Ireland)</option>
+            </select>
+        </div>
+
+        <div class="input-group">
+            <label>VPC CIDR</label>
+            <input type="text" id="vpcCidr" value="10.0.0.0/16" oninput="updateUI()">
+        </div>
+
+        <div class="input-group">
+            <label>Node Instance Type</label>
+            <select id="instanceType" onchange="updateUI()">
+                <option value="t3.medium">t3.medium (Standard)</option>
+                <option value="t3.large">t3.large (Performance)</option>
+            </select>
+        </div>
+
+        <div style="margin-top: auto; font-size: 0.7rem; color: #64748b;">
+            Mockup strictly for educational visualization of variables.
+        </div>
+    </aside>
+
+    <main class="main-canvas">
+        <header style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <h2 style="margin:0">Interactive Infrastructure Mockup</h2>
+                <p style="color: #94a3b8; font-size: 0.9rem; margin: 4px 0 0 0;">Visualizing how Terraform variables shape your AWS environment.</p>
+            </div>
+            <div class="status-badge">IaC READY</div>
+        </header>
+
+        <section class="visualizer" id="visualizer">
+            <!-- Connections (Static Lines for Mockup) -->
+            <div class="line" style="top: 200px; left: 160px; width: 100px;"></div>
+            <div class="line" style="top: 250px; left: 160px; width: 100px; transform: rotate(-45deg);"></div>
+            <div class="line" style="top: 200px; left: 230px; width: 160px;"></div>
+
+            <!-- S3 Node -->
+            <div class="node" style="top: 80px; left: 40px; border-color: var(--success);">
+                STATIC FRONT-END (S3)
+                <span id="topo-s3">golden-path-website-2026</span>
+            </div>
+
+            <!-- AWS Cloud Node -->
+            <div class="node" style="top: 180px; left: 40px; border-color: var(--accent);">
+                AWS CLOUD
+                <span id="topo-region">us-east-1</span>
+            </div>
+
+            <!-- VPC Node -->
+            <div class="node" style="top: 180px; left: 240px; border-color: #94a3b8;">
+                VPC NETWORK
+                <span id="topo-cidr">10.0.0.0/16</span>
+            </div>
+
+            <!-- EKS Node -->
+            <div class="node" style="top: 180px; left: 440px; border-color: var(--warning);">
+                EKS CLUSTER
+                <span id="topo-cluster">golden-path-cluster</span>
+            </div>
+
+            <!-- Nodes -->
+            <div class="node" style="top: 280px; left: 500px; border-color: #f1f5f9;">
+                MANAGED NODES
+                <span id="topo-type">t3.medium</span>
+            </div>
+        </section>
+
+        <section class="code-preview">
+            <pre id="code-snippet">
+<span class="keyword">resource</span> <span class="string">"aws_s3_bucket"</span> <span class="string">"frontend"</span> {
+  <span class="keyword">bucket</span> = <span class="string">"golden-path-website-2026"</span>
+}
+
+<span class="keyword">variable</span> <span class="string">"cluster_name"</span> {
+  <span class="keyword">default</span>     = <span class="string">"golden-path-cluster"</span>
+}
+
+<span class="keyword">variable</span> <span class="string">"region"</span> {
+  <span class="keyword">default</span>     = <span class="string">"us-east-1"</span>
+}
+
+<span class="keyword">module</span> <span class="string">"vpc"</span> {
+  <span class="keyword">source</span> = <span class="string">"terraform-aws-modules/vpc/aws"</span>
+  <span class="keyword">cidr</span>   = <span class="string">"10.0.0.0/16"</span>
+}
+            </pre>
+        </section>
+    </main>
+
+    <script>
+        function updateUI() {
+            const cluster = document.getElementById('clusterName').value || 'cluster';
+            const bucket = document.getElementById('bucketName').value || 'bucket';
+            const region = document.getElementById('region').value;
+            const cidr = document.getElementById('vpcCidr').value || '10.0.0.0/16';
+            const type = document.getElementById('instanceType').value;
+
+            // Update Topology
+            document.getElementById('topo-cluster').innerText = cluster;
+            document.getElementById('topo-s3').innerText = bucket;
+            document.getElementById('topo-region').innerText = region;
+            document.getElementById('topo-cidr').innerText = cidr;
+            document.getElementById('topo-type').innerText = type;
+
+            // Update Code Snippet
+            const snippet = `
+<span class="keyword">resource</span> <span class="string">"aws_s3_bucket"</span> <span class="string">"frontend"</span> {
+  <span class="keyword">bucket</span> = <span class="string">"${bucket}"</span>
+}
+
+<span class="keyword">variable</span> <span class="string">"cluster_name"</span> {
+  <span class="keyword">default</span>     = <span class="string">"${cluster}"</span>
+}
+
+<span class="keyword">variable</span> <span class="string">"region"</span> {
+  <span class="keyword">default</span>     = <span class="string">"${region}"</span>
+}
+
+<span class="keyword">module</span> <span class="string">"vpc"</span> {
+  <span class="keyword">source</span> = <span class="string">"terraform-aws-modules/vpc/aws"</span>
+  <span class="keyword">cidr</span>   = <span class="string">"${cidr}"</span>
+}
+            `;
+            document.getElementById('code-snippet').innerHTML = snippet.trim();
+        }
+    </script>
+</body>
+</html>
